@@ -1,7 +1,7 @@
-
 using Microsoft.EntityFrameworkCore;
 using UserManagement.DataAccess.Context;
 using UserManagement.DataAccess.Repositories;
+using UserManagement.DataAccess.UnitOfWork;
 
 namespace UserManagement
 {
@@ -17,13 +17,15 @@ namespace UserManagement
 
             builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDb")));
 
-            builder.Services.AddScoped<IUserRepository,UserRepository>();
-            builder.Services.AddScoped<IRoleRepository,RoleRepository>();
-            builder.Services.AddScoped<IUserRoleRepository,UserRoleRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+            builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

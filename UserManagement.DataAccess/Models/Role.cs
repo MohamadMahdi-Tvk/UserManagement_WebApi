@@ -4,7 +4,7 @@ namespace UserManagement.DataAccess.Models;
 
 public class Role : BaseEntity
 {
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
     public ICollection<UserRole> Roles { get; set; }
 }
 

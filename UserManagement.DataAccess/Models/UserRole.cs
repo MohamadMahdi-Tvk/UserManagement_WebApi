@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace UserManagement.DataAccess.Models;
 
@@ -22,5 +23,6 @@ public class UserRoleConfiguration : BaseEntityConfiguration<UserRole>
         builder.HasOne(p => p.Role)
             .WithMany(p => p.Roles)
             .HasForeignKey(p => p.RoleId);
+
     }
 }

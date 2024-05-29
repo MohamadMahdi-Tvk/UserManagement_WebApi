@@ -1,65 +1,73 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using UserManagement.DataAccess.Models;
 using UserManagement.DataAccess.Repositories;
+using UserManagement.DataAccess.UnitOfWork;
 using UserManagement.DataAccess.ViewModels.Users;
 
-namespace UserManagement.Controllers
+namespace UserManagement.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class UserController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserController : ControllerBase
+    private readonly IUnitOfWork _unitOfWork;
+
+    public UserController(IUnitOfWork unitOfWork)
     {
-        private readonly IUserRepository userRepository;
+        _unitOfWork = unitOfWork;
+    }
 
-
-        public UserController(IUserRepository userRepository)
+    [HttpPost]
+    [Route(nameof(Create))]
+    public async Task<IActionResult> Create(CreateUserRequest request, CancellationToken cancellationToken)
+    {
+        await _unitOfWork.UserRepository.AddUser(new User()
         {
-            this.userRepository = userRepository;
-        }
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Password = request.Password,
+            UserName = request.UserName,
+        });
 
-        [HttpPost]
-        [Route(nameof(Create))]
-        public async Task<IActionResult> Create(CreateUserRequest request)
-        {
-            await userRepository.AddUser(new User()
-            {
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Password = request.Password,
-                UserName = request.UserName,
-            });
+        await _unitOfWork.CommitAsync(cancellationToken);
+        //var model = request with { FirstName = "ali" };
+        //request.FirstName = "";
 
-            await userRepository.SaveChangesAsync();
-            //var model = request with { FirstName = "ali" };
-            //request.FirstName = "";
+        return Ok("Success!");
+    }
 
-            return Ok("successed!");
-        }
+    [HttpGet]
+    [Route(nameof(GetAll))]
+    public async Task<IActionResult> GetAll()
+    {
+        return Ok(await _unitOfWork.UserRepository.GetAllUsers());
+    }
 
-        [HttpGet]
-        [Route(nameof(GetAll))]
-        public async Task<IActionResult> GetAll()
-        {
-            return Ok(await userRepository.GetAllUsers());
-        }
+    [HttpPost]
+    [Route(nameof(Delete))]
+    public async Task<IActionResult> Delete(int userId, CancellationToken cancellationToken)
+    {
+        await _unitOfWork.UserRepository.DeleteUser(userId);
 
-        [HttpPost]
-        [Route(nameof(Delete))]
-        public async Task<IActionResult> Delete(int userId)
-        {
-            await userRepository.DeleteUser(userId);
+        await _unitOfWork.CommitAsync(cancellationToken);
+        return Ok("Success!!");
+    }
 
-            await userRepository.SaveChangesAsync();
-            return Ok("Success!!");
-        }
+    [HttpGet]
+    [Route(nameof(GetUserById))]
+    public async Task<IActionResult> GetUserById(int userId)
+    {
+        return Ok(await _unitOfWork.UserRepository.GetUserById(userId));
+    }
 
-        [HttpGet]
-        [Route(nameof(GetUserById))]
-        public async Task<IActionResult> GetUserById(int userId)
-        {
-            return Ok(await userRepository.GetUserById(userId));
-        }
+    [HttpPost]
+    [Route(nameof(Update))]
+    public async Task<IActionResult> Update(UpdateUserResponse response, CancellationToken cancellationToken)
+    {
+        await _unitOfWork.UserRepository.UpdateUser(response);
 
+        await _unitOfWork.CommitAsync(cancellationToken);
+
+        return Ok("Success!");
     }
 }
