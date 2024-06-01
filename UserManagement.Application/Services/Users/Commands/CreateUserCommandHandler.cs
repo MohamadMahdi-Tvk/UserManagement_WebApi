@@ -37,6 +37,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Creat
 
             return new CreateUserResponse(IsSuccess: true);
         }
+
         catch (Exception ex)
         {
             throw new Exception(ex.Message);

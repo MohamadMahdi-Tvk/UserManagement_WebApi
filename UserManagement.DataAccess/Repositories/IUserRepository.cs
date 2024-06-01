@@ -15,7 +15,7 @@ namespace UserManagement.DataAccess.Repositories
 
         Task AddUser(User user);
 
-        Task UpdateUser(UpdateUserRequest response);
+        Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request);
 
         Task DeleteUser(int Id);
 
@@ -39,7 +39,7 @@ namespace UserManagement.DataAccess.Repositories
         {
             var user = _context.Users.Find(Id);
 
-             _context.Users.Remove(user);
+            _context.Users.Remove(user);
         }
 
 
@@ -57,16 +57,17 @@ namespace UserManagement.DataAccess.Repositories
 
         }
 
-        public async Task UpdateUser(UpdateUserRequest response)
+        public async Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request)
         {
-            var user = await _context.Users.FindAsync(response.id);
+            var user = await _context.Users.FindAsync(request.id);
 
 
-            user.FirstName = response.firstName;
-            user.LastName = response.lastName;
-            user.UserName = response.userName;
-            user.Password = response.Password;
+            user.FirstName = request.firstName;
+            user.LastName = request.lastName;
+            user.UserName = request.userName;
+            user.Password = request.Password;
 
+            return new UpdateUserResponse(true);
 
         }
 

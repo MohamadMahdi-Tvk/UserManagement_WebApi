@@ -46,7 +46,6 @@ public class UserController : BaseController
     }
 
 
-
     [HttpPost, Route(nameof(Delete))]
     public async Task<DeleteUserResponse> Delete(DeleteUserRequest request, CancellationToken cancellationToken)
     {
@@ -56,26 +55,12 @@ public class UserController : BaseController
     }
 
 
-    //[HttpPost]
-    //[Route(nameof(Delete))]
-    //public async Task<IActionResult> Delete(int userId, CancellationToken cancellationToken)
-    //{
-    //    await _unitOfWork.UserRepository.DeleteUser(userId);
 
-    //    await _unitOfWork.CommitAsync(cancellationToken);
-    //    return Ok("Success!!");
-    //}
+    [HttpPost,Route(nameof(Update))]
+    public async Task<UpdateUserResponse> Update(UpdateUserRequest request, CancellationToken cancellationToken)
+    {
+        var userUpdated = await _mediator.Send(new UpdateUserCommand(request,cancellationToken));
 
-
-
-    //[HttpPost]
-    //[Route(nameof(Update))]
-    //public async Task<IActionResult> Update(UpdateUserRequest response, CancellationToken cancellationToken)
-    //{
-    //    await _unitOfWork.UserRepository.UpdateUser(response);
-
-    //    await _unitOfWork.CommitAsync(cancellationToken);
-
-    //    return Ok("Success!");
-    //}
+        return userUpdated;
+    }
 }

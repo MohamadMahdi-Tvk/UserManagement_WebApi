@@ -15,6 +15,7 @@ public class MappingProfile : Profile
         CreateMap<UsersRequest, User>().ReverseMap();
         CreateMap<GetUserByIdRequest, User>().ReverseMap();
         CreateMap<DeleteUserRequest,User>().ReverseMap();
+        CreateMap<UpdateUserRequest,User>().ReverseMap();
 
         #endregion
 
