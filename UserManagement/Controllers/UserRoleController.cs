@@ -35,7 +35,8 @@ public class UserRoleController : ControllerBase
     [HttpGet, Route(nameof(GetUserRoles))]
     public async Task<IActionResult> GetUserRoles()
     {
-        return Ok(await _unitOfWork.UserRoleRepository.GetAllUserRoles());
+        var getroles = await _unitOfWork.UserRoleRepository.GetAllUserRoles();
+        return Ok(getroles);
     }
 
 

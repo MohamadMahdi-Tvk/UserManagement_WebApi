@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UserManagement.DataAccess.Context;
 using UserManagement.DataAccess.Models;
-using UserManagement.DataAccess.ViewModels.Users;
+using UserManagement.DataAccess.ViewModels.Users.Commands;
+using UserManagement.DataAccess.ViewModels.Users.Queries;
 
 namespace UserManagement.DataAccess.Repositories
 {
@@ -13,7 +14,7 @@ namespace UserManagement.DataAccess.Repositories
 
         Task AddUser(User user);
 
-        Task UpdateUser(UpdateUserResponse response);
+        Task UpdateUser(UpdateUserRequest response);
 
         Task DeleteUser(int userId);
 
@@ -51,7 +52,7 @@ namespace UserManagement.DataAccess.Repositories
             return await _context.Users.FirstOrDefaultAsync(p => p.Id == userId);
         }
 
-        public async Task UpdateUser(UpdateUserResponse response)
+        public async Task UpdateUser(UpdateUserRequest response)
         {
             var user = await _context.Users.FindAsync(response.id);
 

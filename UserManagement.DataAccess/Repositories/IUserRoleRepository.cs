@@ -8,7 +8,7 @@ namespace UserManagement.DataAccess.Repositories;
 
 public interface IUserRoleRepository
 {
-    Task<List<UserRole>> GetAllUserRoles();
+    Task<List<UserRoleResponse>> GetAllUserRoles();
     Task<UserRole> GetUserRoleById(int id);
     Task AddUserRole(UserRole userRole);
     Task UpdateUserRole(UpdateUserRoleResponse response);
@@ -37,11 +37,13 @@ public class UserRoleRepository : IUserRoleRepository
         _context.UserRoles.Remove(userRole);
     }
 
-    public async Task<List<UserRole>> GetAllUserRoles()
+    public async Task<List<UserRoleResponse>> GetAllUserRoles()
     {
         return await _context.UserRoles
-            //.Include(u => u.User)
-            //.Include(u => u.Role) --- Not Include !!!
+            .AsNoTracking()
+            .Include(u => u.User)
+            .Include(u => u.Role)
+            .Select(x => new UserRoleResponse(x.Id, x.Role.Title, x.User.UserName))
             .ToListAsync();
     }
 

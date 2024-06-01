@@ -55,10 +55,6 @@ namespace UserManagement.DataAccess.Repositories
 
             role.Title = response.title;
 
-        }
-
-    
-
-
+        }  
     }
 }
