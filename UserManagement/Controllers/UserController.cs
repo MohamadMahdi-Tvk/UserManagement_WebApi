@@ -47,6 +47,15 @@ public class UserController : BaseController
 
 
 
+    [HttpPost, Route(nameof(Delete))]
+    public async Task<DeleteUserResponse> Delete(DeleteUserRequest request, CancellationToken cancellationToken)
+    {
+        var userDelete = await _mediator.Send(new DeleteUserCommand(request, cancellationToken));
+
+        return userDelete;
+    }
+
+
     //[HttpPost]
     //[Route(nameof(Delete))]
     //public async Task<IActionResult> Delete(int userId, CancellationToken cancellationToken)

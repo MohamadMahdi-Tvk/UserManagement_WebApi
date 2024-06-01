@@ -17,7 +17,7 @@ namespace UserManagement.DataAccess.Repositories
 
         Task UpdateUser(UpdateUserRequest response);
 
-        Task DeleteUser(int userId);
+        Task DeleteUser(int Id);
 
     }
 
@@ -35,11 +35,11 @@ namespace UserManagement.DataAccess.Repositories
 
         }
 
-        public async Task DeleteUser(int userId)
+        public async Task DeleteUser(int Id)
         {
-            var user = _context.Users.Find(userId);
+            var user = _context.Users.Find(Id);
 
-            _context.Users.Remove(user);
+             _context.Users.Remove(user);
         }
 
 

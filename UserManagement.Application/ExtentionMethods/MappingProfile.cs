@@ -10,9 +10,12 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         #region User
+
         CreateMap<CreateUserRequest, User>().ReverseMap();
         CreateMap<UsersRequest, User>().ReverseMap();
         CreateMap<GetUserByIdRequest, User>().ReverseMap();
+        CreateMap<DeleteUserRequest,User>().ReverseMap();
+
         #endregion
 
     }
