@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using UserManagement.DataAccess.Models;
+using UserManagement.DataAccess.ViewModels.Roles.Commands;
 using UserManagement.DataAccess.ViewModels.Users.Commands;
 using UserManagement.DataAccess.ViewModels.Users.Queries;
 
@@ -16,6 +17,12 @@ public class MappingProfile : Profile
         CreateMap<GetUserByIdRequest, User>().ReverseMap();
         CreateMap<DeleteUserRequest,User>().ReverseMap();
         CreateMap<UpdateUserRequest,User>().ReverseMap();
+
+        #endregion
+
+        #region Role
+
+        CreateMap<CreateRoleRequest,Role>().ReverseMap();
 
         #endregion
 

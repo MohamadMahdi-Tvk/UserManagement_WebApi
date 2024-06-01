@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UserManagement.DataAccess.Context;
 using UserManagement.DataAccess.Models;
-using UserManagement.DataAccess.ViewModels.Roles;
+using UserManagement.DataAccess.ViewModels.Roles.Commands;
+using UserManagement.DataAccess.ViewModels.Roles.Queries;
 
 namespace UserManagement.DataAccess.Repositories
 {
     public interface IRoleRepository
     {
-        Task<List<Role>> GetAllRoles();
+        Task<List<GetRolesResponse>> GetAllRoles();
 
         Task<Role> GetRoleById(int roleId);
 
@@ -15,7 +16,7 @@ namespace UserManagement.DataAccess.Repositories
 
         Task DeleteRole(int id);
 
-        Task AddRole(Role role);
+        Task<CreateRoleResponse> AddRole(Role Role);
 
     }
 
@@ -27,9 +28,10 @@ namespace UserManagement.DataAccess.Repositories
             _context = context;
         }
 
-        public async Task AddRole(Role role)
+        public async Task<CreateRoleResponse> AddRole(Role Role)
         {
-            await _context.Roles.AddAsync(role);
+            await _context.Roles.AddAsync(Role);
+            return new CreateRoleResponse(IsSuccess: true);
         }
 
         public async Task DeleteRole(int id)
@@ -39,9 +41,9 @@ namespace UserManagement.DataAccess.Repositories
             _context.Remove(role);
         }
 
-        public async Task<List<Role>> GetAllRoles()
+        public async Task<List<GetRolesResponse>> GetAllRoles()
         {
-            return await _context.Roles.ToListAsync();
+            return await _context.Roles.Select(t => new GetRolesResponse(t.Title)).ToListAsync();
         }
 
         public async Task<Role> GetRoleById(int roleId)
@@ -55,6 +57,6 @@ namespace UserManagement.DataAccess.Repositories
 
             role.Title = response.title;
 
-        }  
+        }
     }
 }
