@@ -8,7 +8,8 @@ namespace UserManagement.DataAccess.Repositories
 {
     public interface IUserRepository
     {
-        Task<List<GetUsersResponse>> GetAllUsers();
+
+        Task<List<UsersResponse>> GetUsers();
 
         Task<User> GetUserById(int userId);
 
@@ -41,10 +42,11 @@ namespace UserManagement.DataAccess.Repositories
             _context.Users.Remove(user);
         }
 
-        public async Task<List<GetUsersResponse>> GetAllUsers()
+
+        public async Task<List<UsersResponse>> GetUsers()
         {
-            return await _context.Users.Select(p => new GetUsersResponse(p.FirstName, p.LastName, p.InsertDate, p.UserName, p.Password))
-                .ToListAsync();
+            return await _context.Users.Select(t => new UsersResponse(t.FirstName, t.LastName, t.InsertDate)).ToListAsync();
+
         }
 
         public async Task<User> GetUserById(int userId)

@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.Application.Services.Users.Commands;
+using UserManagement.Application.Services.Users.Queries;
 using UserManagement.Controllers.Base;
-using UserManagement.DataAccess.Models;
 using UserManagement.DataAccess.ViewModels.Users.Commands;
+using UserManagement.DataAccess.ViewModels.Users.Queries;
 
 namespace UserManagement.Controllers;
 
@@ -23,16 +23,20 @@ public class UserController : BaseController
     {
         var model = await _mediator.Send(new CreateUserCommand(request, cancellationToken));
         return model;
+
+
         //var model = request with { FirstName = "ali" };
         //request.FirstName = "";
     }
 
-    //[HttpGet]
-    //[Route(nameof(GetAll))]
-    //public async Task<IActionResult> GetAll()
-    //{
-    //    return Ok(await _unitOfWork.UserRepository.GetAllUsers());
-    //}
+    [HttpGet]
+    [Route(nameof(GetAll))]
+    public async Task<List<UsersResponse>> GetAll(CancellationToken cancellationToken)
+    {
+        var model = await _mediator.Send(new GetUsersQuery(cancellationToken));
+        return model;
+    }
+
 
     //[HttpPost]
     //[Route(nameof(Delete))]

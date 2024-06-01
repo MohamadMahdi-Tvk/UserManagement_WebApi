@@ -10,8 +10,4 @@
     <ProjectReference Include="..\UserManagement.DataAccess\UserManagement.DataAccess.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Users\Queries\" />
-  </ItemGroup>
-
 </Project>

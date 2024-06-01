@@ -21,9 +21,12 @@ namespace UserManagement
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDb")));
+
             var serviceProvider = builder.Services.BuildServiceProvider();
             var logger = serviceProvider.GetService<ILogger<CreateUserCommand>>();
+
             builder.Services.AddSingleton(typeof(ILogger), logger);
+
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IRoleRepository, RoleRepository>();
             builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
