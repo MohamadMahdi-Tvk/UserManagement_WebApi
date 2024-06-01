@@ -11,7 +11,7 @@ namespace UserManagement.DataAccess.Repositories
 
         Task<List<UsersResponse>> GetUsers();
 
-        Task<User> GetUserById(int userId);
+        Task<GetUserByIdResponse> GetUserById(int Id);
 
         Task AddUser(User user);
 
@@ -49,16 +49,19 @@ namespace UserManagement.DataAccess.Repositories
 
         }
 
-        public async Task<User> GetUserById(int userId)
+        public async Task<GetUserByIdResponse> GetUserById(int id)
         {
-            return await _context.Users.FirstOrDefaultAsync(p => p.Id == userId);
+            var user = await _context.Users.FindAsync(id);
+
+            return new GetUserByIdResponse(user.FirstName, user.LastName, user.UserName, user.Password, user.InsertDate);
+
         }
 
         public async Task UpdateUser(UpdateUserRequest response)
         {
             var user = await _context.Users.FindAsync(response.id);
 
-            
+
             user.FirstName = response.firstName;
             user.LastName = response.lastName;
             user.UserName = response.userName;

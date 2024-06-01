@@ -11,7 +11,8 @@ public class MappingProfile : Profile
     {
         #region User
         CreateMap<CreateUserRequest, User>().ReverseMap();
-        CreateMap<UsersRequest,User>().ReverseMap();
+        CreateMap<UsersRequest, User>().ReverseMap();
+        CreateMap<GetUserByIdRequest, User>().ReverseMap();
         #endregion
 
     }

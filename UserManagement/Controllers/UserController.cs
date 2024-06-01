@@ -37,6 +37,15 @@ public class UserController : BaseController
         return model;
     }
 
+    [HttpPost, Route(nameof(GetUserById))]
+    public async Task<GetUserByIdResponse> GetUserById(GetUserByIdRequest request, CancellationToken cancellationToken)
+    {
+        var user = await _mediator.Send(new GetUserByIdCommand(request, cancellationToken));
+
+        return user;
+    }
+
+
 
     //[HttpPost]
     //[Route(nameof(Delete))]
@@ -48,12 +57,7 @@ public class UserController : BaseController
     //    return Ok("Success!!");
     //}
 
-    //[HttpGet]
-    //[Route(nameof(GetUserById))]
-    //public async Task<IActionResult> GetUserById(int userId)
-    //{
-    //    return Ok(await _unitOfWork.UserRepository.GetUserById(userId));
-    //}
+
 
     //[HttpPost]
     //[Route(nameof(Update))]
