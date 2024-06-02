@@ -3,6 +3,7 @@ using UserManagement.DataAccess.Context;
 using UserManagement.DataAccess.Models;
 using UserManagement.DataAccess.ViewModels.UserRoles;
 using UserManagement.DataAccess.ViewModels.UserRoles.Commands;
+using UserManagement.DataAccess.ViewModels.UserRoles.Queries;
 using UserManagement.DataAccess.ViewModels.Users;
 
 namespace UserManagement.DataAccess.Repositories;
@@ -10,10 +11,13 @@ namespace UserManagement.DataAccess.Repositories;
 public interface IUserRoleRepository
 {
     Task<CreateUserRoleResponse> CreateRole(UserRole userRole);
+
+    Task<GetUserRoleByIdResponse> GetUserRoleById(int id);
+
     //Task<List<UserRoleResponse>> GetAllUserRoles();
-    //Task<UserRole> GetUserRoleById(int id);
 
     //Task UpdateUserRole(UpdateUserRoleResponse response);
+
     //Task DeleteUserRole(int id);
 
 
@@ -33,6 +37,19 @@ public class UserRoleRepository : IUserRoleRepository
         return new CreateUserRoleResponse(IsSuccess: true);
     }
 
+    public async Task<GetUserRoleByIdResponse> GetUserRoleById(int id)
+    {
+        var userRole = await _context.UserRoles
+            .AsNoTracking()
+            .Include(t => t.User)
+            .Include(t => t.Role)
+            .FirstOrDefaultAsync(t => t.Id == id);
+
+
+        return new GetUserRoleByIdResponse($"{userRole.User.FirstName} - {userRole.User.LastName}", userRole.Role.Title);
+
+    }
+
     //public async Task DeleteUserRole(int id)
     //{
     //    var userRole = await _context.UserRoles.FindAsync(id);
@@ -50,10 +67,7 @@ public class UserRoleRepository : IUserRoleRepository
     //        .ToListAsync();
     //}
 
-    //public async Task<UserRole> GetUserRoleById(int id)
-    //{
-    //    return await _context.UserRoles.FindAsync(id);
-    //}
+
 
 
     //public async Task UpdateUserRole(UpdateUserRoleResponse response)

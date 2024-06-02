@@ -4,6 +4,7 @@ using UserManagement.DataAccess.Models;
 using UserManagement.DataAccess.ViewModels.Roles.Commands;
 using UserManagement.DataAccess.ViewModels.Roles.Queries;
 using UserManagement.DataAccess.ViewModels.UserRoles.Commands;
+using UserManagement.DataAccess.ViewModels.UserRoles.Queries;
 using UserManagement.DataAccess.ViewModels.Users.Commands;
 using UserManagement.DataAccess.ViewModels.Users.Queries;
 
@@ -36,6 +37,7 @@ public class MappingProfile : Profile
         #region UserRole
 
         CreateMap<CreateUserRoleRequest,UserRole>().ReverseMap();
+        CreateMap<GetUserRoleByIdRequest,UserRole>().ReverseMap();
 
         #endregion
 

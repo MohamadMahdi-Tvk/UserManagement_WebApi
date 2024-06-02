@@ -1,9 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.Application.Services.UserRoles.Commands;
+using UserManagement.Application.Services.UserRoles.Queries;
 using UserManagement.DataAccess.Models;
 using UserManagement.DataAccess.UnitOfWork;
 using UserManagement.DataAccess.ViewModels.UserRoles.Commands;
+using UserManagement.DataAccess.ViewModels.UserRoles.Queries;
 
 namespace UserManagement.Controllers;
 
@@ -25,5 +27,15 @@ public class UserRoleController : ControllerBase
 
         return userRole;
     }
+
+    [HttpPost, Route(nameof(GetUserRoleById))]
+    public async Task<GetUserRoleByIdResponse> GetUserRoleById(GetUserRoleByIdRequest request, CancellationToken cancellationToken)
+    {
+        var userRole = await _mediator.Send(new GetUserRoleByIdCommand(request, cancellationToken));
+
+        return userRole;
+    }
+
+
 
 }
