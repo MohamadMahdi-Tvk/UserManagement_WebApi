@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using UserManagement.Application.Services.UserRoles.Commands;
 using UserManagement.DataAccess.Models;
 using UserManagement.DataAccess.UnitOfWork;
-using UserManagement.DataAccess.ViewModels.UserRoles;
+using UserManagement.DataAccess.ViewModels.UserRoles.Commands;
 
 namespace UserManagement.Controllers;
 
@@ -9,59 +11,19 @@ namespace UserManagement.Controllers;
 [ApiController]
 public class UserRoleController : ControllerBase
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMediator _mediator;
 
-    public UserRoleController(IUnitOfWork unitOfWork)
+    public UserRoleController(IMediator mediator)
     {
-        _unitOfWork = unitOfWork;
+        _mediator = mediator;
     }
-
 
     [HttpPost, Route(nameof(Create))]
-    public async Task<IActionResult> Create(CreateUserRoleRequest request, CancellationToken cancellationToken)
+    public async Task<CreateUserRoleResponse> Create(CreateUserRoleRequest request, CancellationToken cancellationToken)
     {
-        await _unitOfWork.UserRoleRepository.AddUserRole(new UserRole
-        {
-            UserId = request.userId,
-            RoleId = request.roleId
-        });
+        var userRole = await _mediator.Send(new CreateUserRolesCommand(request, cancellationToken));
 
-        await _unitOfWork.CommitAsync(cancellationToken);
-
-        return Ok("Success!");
+        return userRole;
     }
 
-
-    [HttpGet, Route(nameof(GetUserRoles))]
-    public async Task<IActionResult> GetUserRoles()
-    {
-        var getroles = await _unitOfWork.UserRoleRepository.GetAllUserRoles();
-        return Ok(getroles);
-    }
-
-
-    [HttpGet, Route(nameof(GetUserRoleById))]
-    public async Task<IActionResult> GetUserRoleById(int id)
-    {
-        return Ok(await _unitOfWork.UserRoleRepository.GetUserRoleById(id));
-    }
-
-    [HttpPost, Route(nameof(Delete))]
-    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
-    {
-        await _unitOfWork.UserRoleRepository.DeleteUserRole(id);
-        await _unitOfWork.CommitAsync(cancellationToken);
-
-        return Ok("Success!");
-    }
-
-    [HttpPost, Route(nameof(Update))]
-    public async Task<IActionResult> Update(UpdateUserRoleResponse response, CancellationToken cancellationToken)
-    {
-        await _unitOfWork.UserRoleRepository.UpdateUserRole(response);
-
-        await _unitOfWork.CommitAsync(cancellationToken);
-
-        return Ok("Success!");
-    }
 }

@@ -3,6 +3,7 @@ using UserManagement.Application.Services.Roles.Queries;
 using UserManagement.DataAccess.Models;
 using UserManagement.DataAccess.ViewModels.Roles.Commands;
 using UserManagement.DataAccess.ViewModels.Roles.Queries;
+using UserManagement.DataAccess.ViewModels.UserRoles.Commands;
 using UserManagement.DataAccess.ViewModels.Users.Commands;
 using UserManagement.DataAccess.ViewModels.Users.Queries;
 
@@ -24,10 +25,17 @@ public class MappingProfile : Profile
 
         #region Role
 
+        CreateMap<GetRolesRequest,Role>().ReverseMap();
         CreateMap<CreateRoleRequest,Role>().ReverseMap();
         CreateMap<GetRoleByIdRequest,Role>().ReverseMap();
         CreateMap<UpdateRoleRequest,Role>().ReverseMap();
         CreateMap<DeleteRoleRequest,Role>().ReverseMap();
+
+        #endregion
+
+        #region UserRole
+
+        CreateMap<CreateUserRoleRequest,UserRole>().ReverseMap();
 
         #endregion
 
