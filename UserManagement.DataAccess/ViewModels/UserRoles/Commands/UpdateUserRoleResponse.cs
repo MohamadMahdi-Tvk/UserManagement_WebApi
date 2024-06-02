@@ -1,4 +1,4 @@
 ﻿namespace UserManagement.DataAccess.ViewModels.UserRoles.Commands;
 
-public record UpdateUserRoleResponse(int id, int roleId, int userId);
+public record UpdateUserRoleResponse(bool IsSuccess);
 

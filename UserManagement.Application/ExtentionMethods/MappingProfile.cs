@@ -19,25 +19,27 @@ public class MappingProfile : Profile
         CreateMap<CreateUserRequest, User>().ReverseMap();
         CreateMap<UsersRequest, User>().ReverseMap();
         CreateMap<GetUserByIdRequest, User>().ReverseMap();
-        CreateMap<DeleteUserRequest,User>().ReverseMap();
-        CreateMap<UpdateUserRequest,User>().ReverseMap();
+        CreateMap<DeleteUserRequest, User>().ReverseMap();
+        CreateMap<UpdateUserRequest, User>().ReverseMap();
 
         #endregion
 
         #region Role
 
-        CreateMap<GetRolesRequest,Role>().ReverseMap();
-        CreateMap<CreateRoleRequest,Role>().ReverseMap();
-        CreateMap<GetRoleByIdRequest,Role>().ReverseMap();
-        CreateMap<UpdateRoleRequest,Role>().ReverseMap();
-        CreateMap<DeleteRoleRequest,Role>().ReverseMap();
+        CreateMap<GetRolesRequest, Role>().ReverseMap();
+        CreateMap<CreateRoleRequest, Role>().ReverseMap();
+        CreateMap<GetRoleByIdRequest, Role>().ReverseMap();
+        CreateMap<UpdateRoleRequest, Role>().ReverseMap();
+        CreateMap<DeleteRoleRequest, Role>().ReverseMap();
 
         #endregion
 
         #region UserRole
 
-        CreateMap<CreateUserRoleRequest,UserRole>().ReverseMap();
-        CreateMap<GetUserRoleByIdRequest,UserRole>().ReverseMap();
+        CreateMap<CreateUserRoleRequest, UserRole>().ReverseMap();
+        CreateMap<GetUserRoleByIdRequest, UserRole>().ReverseMap();
+        CreateMap<GetUserRolesRequest, UserRole>().ReverseMap();
+        CreateMap<UpdateUserRoleRequest, UserRole>().ReverseMap();
 
         #endregion
 

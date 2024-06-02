@@ -31,7 +31,7 @@ public class UserRoleController : ControllerBase
     [HttpPost, Route(nameof(GetUserRoleById))]
     public async Task<GetUserRoleByIdResponse> GetUserRoleById(GetUserRoleByIdRequest request, CancellationToken cancellationToken)
     {
-        var userRole = await _mediator.Send(new GetUserRoleByIdCommand(request, cancellationToken));
+        var userRole = await _mediator.Send(new GetUserRoleByIdQuery(request, cancellationToken));
 
         return userRole;
     }
@@ -44,5 +44,12 @@ public class UserRoleController : ControllerBase
         return userRoles;
     }
 
+    [HttpPost]
+    [Route(nameof(Update))]
+    public async Task<UpdateUserRoleResponse> Update(UpdateUserRoleRequest request, CancellationToken cancellationToken)
+    {
+        var userRoleUpdate = await _mediator.Send(new UpdateUserRolesCommand(request, cancellationToken));
 
+        return userRoleUpdate;
+    }
 }

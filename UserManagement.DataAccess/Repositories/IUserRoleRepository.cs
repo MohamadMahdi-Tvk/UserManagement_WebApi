@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UserManagement.DataAccess.Context;
 using UserManagement.DataAccess.Models;
-using UserManagement.DataAccess.ViewModels.UserRoles;
 using UserManagement.DataAccess.ViewModels.UserRoles.Commands;
 using UserManagement.DataAccess.ViewModels.UserRoles.Queries;
-using UserManagement.DataAccess.ViewModels.Users;
 
 namespace UserManagement.DataAccess.Repositories;
 
@@ -12,12 +10,12 @@ public interface IUserRoleRepository
 {
     Task<CreateUserRoleResponse> CreateRole(UserRole userRole);
 
-    Task<GetUserRoleByIdResponse> GetUserRoleById(int id);
+    Task<UserRole> GetUserRoleById(int id);
 
     Task<List<GetUserRolesResponse>> GetAllUserRoles();
-    //Task<List<UserRoleResponse>> GetAllUserRoles();
 
-    //Task UpdateUserRole(UpdateUserRoleResponse response);
+
+    //Task<UpdateUserRoleResponse> UpdateUserRole(UpdateUserRoleRequest response);
 
     //Task DeleteUserRole(int id);
 
@@ -38,16 +36,15 @@ public class UserRoleRepository : IUserRoleRepository
         return new CreateUserRoleResponse(IsSuccess: true);
     }
 
-    public async Task<GetUserRoleByIdResponse> GetUserRoleById(int id)
+    public async Task<UserRole> GetUserRoleById(int id)
     {
         var userRole = await _context.UserRoles
-            .AsNoTracking()
             .Include(t => t.User)
             .Include(t => t.Role)
             .FirstOrDefaultAsync(t => t.Id == id);
 
 
-        return new GetUserRoleByIdResponse($"{userRole.User.FirstName} - {userRole.User.LastName}", userRole.Role.Title);
+        return userRole;
 
     }
 
@@ -57,10 +54,11 @@ public class UserRoleRepository : IUserRoleRepository
             .AsNoTracking()
             .Include(u => u.User)
             .Include(u => u.Role)
-            .Select(u =>  new GetUserRolesResponse(u.Id, $"{u.User.UserName} - {u.User.LastName}", u.Role.Title))
+            .Select(u => new GetUserRolesResponse(u.Id, $"{u.User.UserName} - {u.User.LastName}", u.Role.Title))
             .ToListAsync();
-                       
+
     }
+
 
     //public async Task DeleteUserRole(int id)
     //{
@@ -69,18 +67,6 @@ public class UserRoleRepository : IUserRoleRepository
     //    _context.UserRoles.Remove(userRole);
     //}
 
-
-
-
-
-    //public async Task UpdateUserRole(UpdateUserRoleResponse response)
-    //{
-    //    var userRole = await _context.UserRoles.FindAsync(response.id);
-
-    //    userRole.RoleId = response.roleId;
-    //    userRole.UserId = response.userId;
-
-    //}
 }
 
 

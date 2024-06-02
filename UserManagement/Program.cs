@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 using UserManagement.Application.ExtentionMethods;
+using UserManagement.Application.Services.UserRoles.Commands;
+using UserManagement.Application.Services.UserRoles.Queries;
 using UserManagement.Application.Services.Users.Commands;
 using UserManagement.DataAccess.Context;
 using UserManagement.DataAccess.Repositories;
@@ -33,7 +35,11 @@ namespace UserManagement
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             #region MediatR
-            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(CreateUserCommand).Assembly));
+
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(CreateUserCommand).Assembly
+                , typeof(UpdateUserRolesCommand).Assembly
+                , typeof(GetUserRoleByIdQuery).Assembly));
+
             #endregion
 
             #region Mapper
