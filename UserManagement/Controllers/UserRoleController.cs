@@ -36,6 +36,13 @@ public class UserRoleController : ControllerBase
         return userRole;
     }
 
+    [HttpGet, Route(nameof(GetUserRoles))]
+    public async Task<List<GetUserRolesResponse>> GetUserRoles(CancellationToken cancellationToken)
+    {
+        var userRoles = await _mediator.Send(new GetUserRolesQuery(cancellationToken));
+
+        return userRoles;
+    }
 
 
 }

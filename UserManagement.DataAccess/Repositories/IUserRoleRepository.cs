@@ -14,6 +14,7 @@ public interface IUserRoleRepository
 
     Task<GetUserRoleByIdResponse> GetUserRoleById(int id);
 
+    Task<List<GetUserRolesResponse>> GetAllUserRoles();
     //Task<List<UserRoleResponse>> GetAllUserRoles();
 
     //Task UpdateUserRole(UpdateUserRoleResponse response);
@@ -50,6 +51,17 @@ public class UserRoleRepository : IUserRoleRepository
 
     }
 
+    public async Task<List<GetUserRolesResponse>> GetAllUserRoles()
+    {
+        return await _context.UserRoles
+            .AsNoTracking()
+            .Include(u => u.User)
+            .Include(u => u.Role)
+            .Select(u =>  new GetUserRolesResponse(u.Id, $"{u.User.UserName} - {u.User.LastName}", u.Role.Title))
+            .ToListAsync();
+                       
+    }
+
     //public async Task DeleteUserRole(int id)
     //{
     //    var userRole = await _context.UserRoles.FindAsync(id);
@@ -57,15 +69,6 @@ public class UserRoleRepository : IUserRoleRepository
     //    _context.UserRoles.Remove(userRole);
     //}
 
-    //public async Task<List<UserRoleResponse>> GetAllUserRoles()
-    //{
-    //    return await _context.UserRoles
-    //        .AsNoTracking()
-    //        .Include(u => u.User)
-    //        .Include(u => u.Role)
-    //        .Select(x => new UserRoleResponse(x.Id, x.Role.Title, x.User.UserName))
-    //        .ToListAsync();
-    //}
 
 
 
