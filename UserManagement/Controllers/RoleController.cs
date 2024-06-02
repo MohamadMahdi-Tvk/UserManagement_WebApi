@@ -54,4 +54,12 @@ public class RoleController : ControllerBase
         return roleUpdate;
     }
 
+    [HttpPost,Route(nameof(Delete))]
+    public async Task<DeleteRoleResponse> Delete(DeleteRoleRequest request, CancellationToken cancellationToken)
+    {
+        var roleDelete = await _mediator.Send(new DeleteRoleCommand(request, cancellationToken));
+
+        return  roleDelete;
+    }
+
 }

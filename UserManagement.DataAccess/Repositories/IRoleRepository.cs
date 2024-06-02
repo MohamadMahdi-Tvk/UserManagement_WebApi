@@ -14,7 +14,7 @@ namespace UserManagement.DataAccess.Repositories
 
         Task<UpdateRoleResponse> UpdateRole(UpdateRoleRequest request);
 
-        Task DeleteRole(int id);
+        Task<DeleteRoleResponse> DeleteRole(int Id);
 
         Task<CreateRoleResponse> AddRole(Role Role);
 
@@ -34,11 +34,12 @@ namespace UserManagement.DataAccess.Repositories
             return new CreateRoleResponse(IsSuccess: true);
         }
 
-        public async Task DeleteRole(int id)
+        public async Task<DeleteRoleResponse> DeleteRole(int Id)
         {
-            var role = _context.Roles.Find(id);
+            var role = _context.Roles.Find(Id);
 
-            _context.Remove(role);
+            _context.Roles.Remove(role);
+            return new DeleteRoleResponse(IsSuccess: true);
         }
 
         public async Task<List<GetRolesResponse>> GetAllRoles()
