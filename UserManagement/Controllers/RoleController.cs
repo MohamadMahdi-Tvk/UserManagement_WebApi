@@ -38,12 +38,20 @@ public class RoleController : ControllerBase
 
     }
 
-    [HttpPost,Route(nameof(GetRoleById))]
-    public async Task<GetRoleByIdResponse> GetRoleById(GetRoleByIdRequest request , CancellationToken cancellationToken)
+    [HttpPost, Route(nameof(GetRoleById))]
+    public async Task<GetRoleByIdResponse> GetRoleById(GetRoleByIdRequest request, CancellationToken cancellationToken)
     {
-        var model = await _mediator.Send(new GetRoleByIdCommand(request,cancellationToken));
+        var model = await _mediator.Send(new GetRoleByIdQuery(request, cancellationToken));
 
         return model;
+    }
+
+    [HttpPost, Route(nameof(Update))]
+    public async Task<UpdateRoleResponse> Update(UpdateRoleRequest request, CancellationToken cancellationToken)
+    {
+        var roleUpdate = await _mediator.Send(new UpdateRoleCommand(request, cancellationToken));
+
+        return roleUpdate;
     }
 
 }

@@ -12,7 +12,7 @@ namespace UserManagement.DataAccess.Repositories
 
         Task<GetRoleByIdResponse> GetRoleById(int Id);
 
-        Task UpdateRole(UpdateRoleResponse response);
+        Task<UpdateRoleResponse> UpdateRole(UpdateRoleRequest request);
 
         Task DeleteRole(int id);
 
@@ -54,11 +54,13 @@ namespace UserManagement.DataAccess.Repositories
 
         }
 
-        public async Task UpdateRole(UpdateRoleResponse response)
+        public async Task<UpdateRoleResponse> UpdateRole(UpdateRoleRequest request)
         {
-            var role = _context.Roles.Find(response.roleId);
+            var role = await _context.Roles.FindAsync(request.Id);
 
-            role.Title = response.title;
+            role.Title = request.Title;
+
+            return new UpdateRoleResponse(IsSuccess: true);
 
         }
     }

@@ -1,3 +1,3 @@
 ﻿namespace UserManagement.DataAccess.ViewModels.Roles.Commands;
 
-public record UpdateRoleResponse(bool IsSuccess);
+public record UpdateRoleRequest(int Id, string Title);

@@ -56,10 +56,10 @@ public class UserController : BaseController
 
 
 
-    [HttpPost,Route(nameof(Update))]
+    [HttpPost, Route(nameof(Update))]
     public async Task<UpdateUserResponse> Update(UpdateUserRequest request, CancellationToken cancellationToken)
     {
-        var userUpdated = await _mediator.Send(new UpdateUserCommand(request,cancellationToken));
+        var userUpdated = await _mediator.Send(new UpdateUserCommand(request, cancellationToken));
 
         return userUpdated;
     }
