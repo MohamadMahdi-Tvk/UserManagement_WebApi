@@ -12,9 +12,12 @@ public class GetUserByIdCommandHandler : IRequestHandler<GetUserByIdCommand, Get
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public GetUserByIdCommandHandler(IUnitOfWork unitOfWork)
+    public GetUserByIdCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
+        _mapper = mapper;
+
+
     }
 
     public async Task<GetUserByIdResponse> Handle(GetUserByIdCommand request, CancellationToken cancellationToken)
@@ -23,7 +26,7 @@ public class GetUserByIdCommandHandler : IRequestHandler<GetUserByIdCommand, Get
         {
             var user = _mapper.Map<GetUserByIdRequest, User>(request.Command);
 
-           return await _unitOfWork.UserRepository.GetUserById(request.Command.Id);
+            return await _unitOfWork.UserRepository.GetUserById(user.Id);
 
         }
         catch (Exception ex)

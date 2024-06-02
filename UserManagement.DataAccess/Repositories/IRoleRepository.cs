@@ -10,7 +10,7 @@ namespace UserManagement.DataAccess.Repositories
     {
         Task<List<GetRolesResponse>> GetAllRoles();
 
-        Task<Role> GetRoleById(int roleId);
+        Task<GetRoleByIdResponse> GetRoleById(int Id);
 
         Task UpdateRole(UpdateRoleResponse response);
 
@@ -46,9 +46,12 @@ namespace UserManagement.DataAccess.Repositories
             return await _context.Roles.Select(t => new GetRolesResponse(t.Title)).ToListAsync();
         }
 
-        public async Task<Role> GetRoleById(int roleId)
+        public async Task<GetRoleByIdResponse> GetRoleById(int Id)
         {
-            return await _context.Roles.FindAsync(roleId);
+            var role = await _context.Roles.FindAsync(Id);
+
+            return new GetRoleByIdResponse(role.Title);
+
         }
 
         public async Task UpdateRole(UpdateRoleResponse response)

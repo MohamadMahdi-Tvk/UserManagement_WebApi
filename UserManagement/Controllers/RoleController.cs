@@ -36,7 +36,14 @@ public class RoleController : ControllerBase
         var model = await _mediator.Send(new GetRolesQuery(cancellationToken));
         return model;
 
+    }
 
+    [HttpPost,Route(nameof(GetRoleById))]
+    public async Task<GetRoleByIdResponse> GetRoleById(GetRoleByIdRequest request , CancellationToken cancellationToken)
+    {
+        var model = await _mediator.Send(new GetRoleByIdCommand(request,cancellationToken));
+
+        return model;
     }
 
 }
