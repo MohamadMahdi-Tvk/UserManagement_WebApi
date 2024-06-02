@@ -52,4 +52,12 @@ public class UserRoleController : ControllerBase
 
         return userRoleUpdate;
     }
+
+    [HttpPost]
+    [Route(nameof(Delete))]
+    public async Task<DeleteUserRoleResponse> Delete(DeleteUserRoleRequest request, CancellationToken cancellationToken)
+    {
+        var userRoleDelete = await _mediator.Send(new DeleteUserRoleCommand(request, cancellationToken));
+        return userRoleDelete;
+    }
 }

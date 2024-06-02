@@ -38,7 +38,10 @@ namespace UserManagement
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(CreateUserCommand).Assembly
                 , typeof(UpdateUserRolesCommand).Assembly
-                , typeof(GetUserRoleByIdQuery).Assembly));
+                , typeof(GetUserRoleByIdQuery).Assembly
+                , typeof(DeleteUserRoleCommand).Assembly));
+                
+
 
             #endregion
 

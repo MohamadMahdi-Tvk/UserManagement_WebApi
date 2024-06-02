@@ -13,11 +13,7 @@ public interface IUserRoleRepository
     Task<UserRole> GetUserRoleById(int id);
 
     Task<List<GetUserRolesResponse>> GetAllUserRoles();
-
-
-    //Task<UpdateUserRoleResponse> UpdateUserRole(UpdateUserRoleRequest response);
-
-    //Task DeleteUserRole(int id);
+    Task DeleteUserRole(int id);
 
 
 }
@@ -59,14 +55,12 @@ public class UserRoleRepository : IUserRoleRepository
 
     }
 
+    public async Task DeleteUserRole(int id)
+    {
+        var userRole= _context.UserRoles.FirstOrDefault(t => t.Id == id);
 
-    //public async Task DeleteUserRole(int id)
-    //{
-    //    var userRole = await _context.UserRoles.FindAsync(id);
-
-    //    _context.UserRoles.Remove(userRole);
-    //}
-
+        _context.UserRoles.Remove(userRole);
+    }
 }
 
 
