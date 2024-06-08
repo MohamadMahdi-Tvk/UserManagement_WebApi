@@ -14,8 +14,26 @@ public class UserController : BaseController
 {
     public UserController(IMediator mediator, ILogger logger) : base(mediator, logger)
     {
-
     }
+
+
+    [HttpGet]
+    [Route(nameof(GetAll))]
+    public async Task<IEnumerable<UsersResponse>> GetAll(CancellationToken cancellationToken)
+    {
+        var model = await _mediator.Send(new GetUsersQuery(cancellationToken));
+        return model;
+    }
+
+
+    [HttpPost, Route(nameof(GetUserById))]
+    public async Task<GetUserByIdResponse> GetUserById(GetUserByIdRequest request, CancellationToken cancellationToken)
+    {
+        var user = await _mediator.Send(new GetUserByIdQuery(request, cancellationToken));
+
+        return user;
+    }
+
 
     [HttpPost]
     [Route(nameof(Create))]
@@ -29,21 +47,7 @@ public class UserController : BaseController
         //request.FirstName = "";
     }
 
-    [HttpGet]
-    [Route(nameof(GetAll))]
-    public async Task<List<UsersResponse>> GetAll(CancellationToken cancellationToken)
-    {
-        var model = await _mediator.Send(new GetUsersQuery(cancellationToken));
-        return model;
-    }
 
-    [HttpPost, Route(nameof(GetUserById))]
-    public async Task<GetUserByIdResponse> GetUserById(GetUserByIdRequest request, CancellationToken cancellationToken)
-    {
-        var user = await _mediator.Send(new GetUserByIdCommand(request, cancellationToken));
-
-        return user;
-    }
 
 
     [HttpPost, Route(nameof(Delete))]

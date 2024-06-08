@@ -8,15 +8,15 @@ namespace UserManagement.DataAccess.Repositories
 {
     public interface IRoleRepository
     {
-        Task<List<GetRolesResponse>> GetAllRoles();
+        Task<List<Role>> GetAllRoles();
 
-        Task<GetRoleByIdResponse> GetRoleById(int Id);
+        Task<Role> GetRoleById(int Id);
 
-        Task<UpdateRoleResponse> UpdateRole(UpdateRoleRequest request);
+        Task UpdateRole(Role NewRole);
 
-        Task<DeleteRoleResponse> DeleteRole(int Id);
+        Task DeleteRole(int Id);
 
-        Task<CreateRoleResponse> AddRole(Role Role);
+        Task AddRole(Role Role);
 
     }
 
@@ -28,40 +28,32 @@ namespace UserManagement.DataAccess.Repositories
             _context = context;
         }
 
-        public async Task<CreateRoleResponse> AddRole(Role Role)
+        public async Task AddRole(Role Role)
         {
             await _context.Roles.AddAsync(Role);
-            return new CreateRoleResponse(IsSuccess: true);
         }
 
-        public async Task<DeleteRoleResponse> DeleteRole(int Id)
+        public async Task DeleteRole(int Id)
         {
-            var role = _context.Roles.Find(Id);
-
-            _context.Roles.Remove(role);
-            return new DeleteRoleResponse(IsSuccess: true);
+            _context.Roles.Remove(new Role { Id = Id });
         }
 
-        public async Task<List<GetRolesResponse>> GetAllRoles()
+        public async Task<List<Role>> GetAllRoles()
         {
-            return await _context.Roles.Select(t => new GetRolesResponse(t.Title)).ToListAsync();
+            return await _context.Roles.ToListAsync();
         }
 
-        public async Task<GetRoleByIdResponse> GetRoleById(int Id)
+        public async Task<Role> GetRoleById(int Id)
         {
-            var role = await _context.Roles.FindAsync(Id);
-
-            return new GetRoleByIdResponse(role.Title);
+            return await _context.Roles.FindAsync(Id);
 
         }
 
-        public async Task<UpdateRoleResponse> UpdateRole(UpdateRoleRequest request)
+        public async Task UpdateRole(Role NewRole)
         {
-            var role = await _context.Roles.FindAsync(request.Id);
+            var role = _context.Roles.FirstOrDefault(r => r.Id == NewRole.Id);
 
-            role.Title = request.Title;
-
-            return new UpdateRoleResponse(IsSuccess: true);
+            role.Title = NewRole.Title;
 
         }
     }

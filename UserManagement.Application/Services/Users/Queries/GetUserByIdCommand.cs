@@ -3,4 +3,5 @@ using UserManagement.DataAccess.ViewModels.Users.Queries;
 
 namespace UserManagement.Application.Services.Users.Queries;
 
-public record GetUsersQuery(CancellationToken CancellationToken) : IRequest<IEnumerable<UsersResponse>>;
+public record GetUserByIdQuery(GetUserByIdRequest Query, CancellationToken CancellationToken) : IRequest<GetUserByIdResponse>;
+

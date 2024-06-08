@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.Application.Services.UserRoles.Commands;
 using UserManagement.Application.Services.UserRoles.Queries;
+using UserManagement.Controllers.Base;
 using UserManagement.DataAccess.Models;
 using UserManagement.DataAccess.UnitOfWork;
 using UserManagement.DataAccess.ViewModels.UserRoles.Commands;
@@ -11,14 +12,20 @@ namespace UserManagement.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UserRoleController : ControllerBase
+public class UserRoleController : BaseController
 {
-    private readonly IMediator _mediator;
-
-    public UserRoleController(IMediator mediator)
+    public UserRoleController(IMediator mediator,ILogger logger) : base(mediator, logger)
     {
-        _mediator = mediator;
     }
+
+    [HttpGet, Route(nameof(GetUserRoles))]
+    public async Task<List<GetUserRolesResponse>> GetUserRoles(CancellationToken cancellationToken)
+    {
+        var userRoles = await _mediator.Send(new GetUserRolesQuery(cancellationToken));
+
+        return userRoles;
+    }
+
 
     [HttpPost, Route(nameof(Create))]
     public async Task<CreateUserRoleResponse> Create(CreateUserRoleRequest request, CancellationToken cancellationToken)
@@ -36,13 +43,7 @@ public class UserRoleController : ControllerBase
         return userRole;
     }
 
-    [HttpGet, Route(nameof(GetUserRoles))]
-    public async Task<List<GetUserRolesResponse>> GetUserRoles(CancellationToken cancellationToken)
-    {
-        var userRoles = await _mediator.Send(new GetUserRolesQuery(cancellationToken));
-
-        return userRoles;
-    }
+  
 
     [HttpPost]
     [Route(nameof(Update))]

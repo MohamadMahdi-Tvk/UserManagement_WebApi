@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using UserManagement.DataAccess.Models;
 using UserManagement.DataAccess.UnitOfWork;
 using UserManagement.DataAccess.ViewModels.UserRoles.Commands;
 
@@ -18,7 +19,9 @@ public class DeleteUserRoleCommandHandler : IRequestHandler<DeleteUserRoleComman
 
     public async Task<DeleteUserRoleResponse> Handle(DeleteUserRoleCommand request, CancellationToken cancellationToken)
     {
-        await _unitOfWork.UserRoleRepository.DeleteUserRole(request.Command.Id);
+        var userRole = _mapper.Map<DeleteUserRoleRequest, UserRole>(request.Command);
+
+        await _unitOfWork.UserRoleRepository.DeleteUserRole(userRole.Id);   
 
         await _unitOfWork.CommitAsync(cancellationToken);
 

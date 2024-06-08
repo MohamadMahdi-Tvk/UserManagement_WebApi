@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using UserManagement.DataAccess.Models;
 using UserManagement.DataAccess.UnitOfWork;
 using UserManagement.DataAccess.ViewModels.Roles.Queries;
 
@@ -22,7 +23,9 @@ public class GetRolesQueryHandler : IRequestHandler<GetRolesQuery, List<GetRoles
         {
             var roles = await _unitOfWork.RoleRepository.GetAllRoles();
 
-            return roles;
+            var rolesMapped = _mapper.Map<List<Role>, List<GetRolesResponse>>(roles);
+
+            return rolesMapped;
         }
         catch (Exception ex)
         {

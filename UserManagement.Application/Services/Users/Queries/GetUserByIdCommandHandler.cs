@@ -5,28 +5,30 @@ using UserManagement.DataAccess.UnitOfWork;
 using UserManagement.DataAccess.ViewModels.Users.Commands;
 using UserManagement.DataAccess.ViewModels.Users.Queries;
 
-namespace UserManagement.Application.Services.Users.Commands;
+namespace UserManagement.Application.Services.Users.Queries;
 
-public class GetUserByIdCommandHandler : IRequestHandler<GetUserByIdCommand, GetUserByIdResponse>
+public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, GetUserByIdResponse>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public GetUserByIdCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    public GetUserByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
 
-
     }
 
-    public async Task<GetUserByIdResponse> Handle(GetUserByIdCommand request, CancellationToken cancellationToken)
+    public async Task<GetUserByIdResponse> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
         try
         {
-            var user = _mapper.Map<GetUserByIdRequest, User>(request.Command);
+            var user = await _unitOfWork.UserRepository.GetUserById(request.Query.Id);
 
-            return await _unitOfWork.UserRepository.GetUserById(user.Id);
+            var userMapped = _mapper.Map<User, GetUserByIdResponse>(user);
+
+
+            return userMapped;
 
         }
         catch (Exception ex)

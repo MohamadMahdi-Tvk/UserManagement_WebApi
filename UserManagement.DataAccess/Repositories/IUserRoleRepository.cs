@@ -8,11 +8,12 @@ namespace UserManagement.DataAccess.Repositories;
 
 public interface IUserRoleRepository
 {
-    Task<CreateUserRoleResponse> CreateRole(UserRole userRole);
+    Task CreateRole(UserRole userRole);
 
     Task<UserRole> GetUserRoleById(int id);
 
     Task<List<GetUserRolesResponse>> GetAllUserRoles();
+
     Task DeleteUserRole(int id);
 
 
@@ -26,10 +27,9 @@ public class UserRoleRepository : IUserRoleRepository
         _context = context;
     }
 
-    public async Task<CreateUserRoleResponse> CreateRole(UserRole userRole)
+    public async Task CreateRole(UserRole userRole)
     {
         await _context.UserRoles.AddAsync(userRole);
-        return new CreateUserRoleResponse(IsSuccess: true);
     }
 
     public async Task<UserRole> GetUserRoleById(int id)
@@ -39,25 +39,25 @@ public class UserRoleRepository : IUserRoleRepository
             .Include(t => t.Role)
             .FirstOrDefaultAsync(t => t.Id == id);
 
-
         return userRole;
 
     }
 
     public async Task<List<GetUserRolesResponse>> GetAllUserRoles()
     {
-        return await _context.UserRoles
+        var userRoles = await _context.UserRoles
             .AsNoTracking()
             .Include(u => u.User)
             .Include(u => u.Role)
-            .Select(u => new GetUserRolesResponse(u.Id, $"{u.User.UserName} - {u.User.LastName}", u.Role.Title))
+            .Select(p => new GetUserRolesResponse(p.Role.Id, p.Role.Title, p.User.FullName))
             .ToListAsync();
 
+        return userRoles;
     }
 
     public async Task DeleteUserRole(int id)
     {
-        var userRole= _context.UserRoles.FirstOrDefault(t => t.Id == id);
+        var userRole = await _context.UserRoles.FirstOrDefaultAsync(t => t.Id == id);
 
         _context.UserRoles.Remove(userRole);
     }

@@ -26,7 +26,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Updat
         {
             var userUpdated = _mapper.Map<UpdateUserRequest, User>(request.Command);
         
-            await _unitOfWork.UserRepository.UpdateUser(new UpdateUserRequest(userUpdated.Id, userUpdated.FirstName, userUpdated.LastName, userUpdated.UserName, userUpdated.Password));
+            await _unitOfWork.UserRepository.UpdateUser(userUpdated);
 
             await _unitOfWork.CommitAsync(cancellationToken);
 

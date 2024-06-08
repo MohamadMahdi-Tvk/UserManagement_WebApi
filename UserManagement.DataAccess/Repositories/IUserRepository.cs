@@ -9,13 +9,13 @@ namespace UserManagement.DataAccess.Repositories
     public interface IUserRepository
     {
 
-        Task<List<UsersResponse>> GetUsers();
+        Task<IEnumerable<User>> GetUsers();
 
-        Task<GetUserByIdResponse> GetUserById(int Id);
+        Task<User> GetUserById(int Id);
 
         Task AddUser(User user);
 
-        Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request);
+        Task UpdateUser(User NewUser);
 
         Task DeleteUser(int Id);
 
@@ -27,6 +27,19 @@ namespace UserManagement.DataAccess.Repositories
         public UserRepository(DatabaseContext context)
         {
             _context = context;
+        }
+
+        public async Task<IEnumerable<User>> GetUsers()
+        {
+            return await _context.Users.ToListAsync();
+        }
+
+        public async Task<User> GetUserById(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+
+            return user;
+
         }
 
         public async Task AddUser(User user)
@@ -43,31 +56,17 @@ namespace UserManagement.DataAccess.Repositories
         }
 
 
-        public async Task<List<UsersResponse>> GetUsers()
+
+        public async Task UpdateUser(User NewUser)
         {
-            return await _context.Users.Select(t => new UsersResponse(t.FirstName, t.LastName, t.InsertDate)).ToListAsync();
-
-        }
-
-        public async Task<GetUserByIdResponse> GetUserById(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-
-            return new GetUserByIdResponse(user.FirstName, user.LastName, user.UserName, user.Password, user.InsertDate);
-
-        }
-
-        public async Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request)
-        {
-            var user = await _context.Users.FindAsync(request.id);
+            var user = await _context.Users.FindAsync(NewUser.Id);
 
 
-            user.FirstName = request.firstName;
-            user.LastName = request.lastName;
-            user.UserName = request.userName;
-            user.Password = request.Password;
+            user.FirstName = NewUser.FirstName;
+            user.LastName = NewUser.LastName;
+            user.UserName = NewUser.UserName;
+            user.Password = NewUser.Password;
 
-            return new UpdateUserResponse(true);
 
         }
 

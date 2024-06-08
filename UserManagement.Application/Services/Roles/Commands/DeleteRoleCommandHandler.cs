@@ -6,30 +6,28 @@ using UserManagement.DataAccess.ViewModels.Roles.Commands;
 
 namespace UserManagement.Application.Services.Roles.Commands;
 
-public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, UpdateRoleResponse>
+public class DeleteRoleCommandHandler : IRequestHandler<DeleteRoleCommand, DeleteRoleResponse>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public UpdateRoleCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    public DeleteRoleCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
 
-    public async Task<UpdateRoleResponse> Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
+    public async Task<DeleteRoleResponse> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            var roleMapped = _mapper.Map<UpdateRoleRequest, Role>(request.Command);
+            var role = _mapper.Map<DeleteRoleRequest, Role>(request.Command);
 
-            var roleUpdated = _unitOfWork.RoleRepository.UpdateRole(roleMapped);
-
+            await _unitOfWork.RoleRepository.DeleteRole(role.Id);
             await _unitOfWork.CommitAsync(cancellationToken);
 
-            return new UpdateRoleResponse(IsSuccess: true);
+            return new DeleteRoleResponse(IsSuccess: true);
         }
-
         catch (Exception ex)
         {
 
@@ -37,3 +35,4 @@ public class UpdateRoleCommandHandler : IRequestHandler<UpdateRoleCommand, Updat
         }
     }
 }
+

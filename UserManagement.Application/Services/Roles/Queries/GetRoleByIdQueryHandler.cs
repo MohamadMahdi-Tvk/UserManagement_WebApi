@@ -22,11 +22,13 @@ public class GetRoleByIdQueryHandler : IRequestHandler<GetRoleByIdQuery, GetRole
     {
         try
         {
-            var roleMapped = _mapper.Map<GetRoleByIdRequest, Role>(request.Query);
+            var role = await _unitOfWork.RoleRepository.GetRoleById(request.Query.Id);
 
-            var role = _unitOfWork.RoleRepository.GetRoleById(roleMapped.Id);
+            var roleMapped = _mapper.Map<Role, GetRoleByIdResponse>(role);
 
-            return await role;
+            return roleMapped;
+
+
 
         }
 

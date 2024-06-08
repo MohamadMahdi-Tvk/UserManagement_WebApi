@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.Application.Services.Roles.Commands;
 using UserManagement.Application.Services.Roles.Queries;
+using UserManagement.Controllers.Base;
 using UserManagement.DataAccess.Models;
 using UserManagement.DataAccess.UnitOfWork;
 using UserManagement.DataAccess.ViewModels.Roles;
@@ -12,13 +13,10 @@ namespace UserManagement.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class RoleController : ControllerBase
+public class RoleController : BaseController
 {
-    private readonly IMediator _mediator;
-
-    public RoleController(IMediator mediator)
+    public RoleController(IMediator mediator, ILogger logger) : base(mediator, logger)
     {
-        _mediator = mediator;
     }
 
 
@@ -54,12 +52,12 @@ public class RoleController : ControllerBase
         return roleUpdate;
     }
 
-    [HttpPost,Route(nameof(Delete))]
+    [HttpPost, Route(nameof(Delete))]
     public async Task<DeleteRoleResponse> Delete(DeleteRoleRequest request, CancellationToken cancellationToken)
     {
         var roleDelete = await _mediator.Send(new DeleteRoleCommand(request, cancellationToken));
 
-        return  roleDelete;
+        return roleDelete;
     }
 
 }
