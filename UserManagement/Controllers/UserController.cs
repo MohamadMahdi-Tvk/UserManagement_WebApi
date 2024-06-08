@@ -17,11 +17,11 @@ public class UserController : BaseController
     }
 
 
-    [HttpGet]
+    [HttpPost]
     [Route(nameof(GetAll))]
-    public async Task<IEnumerable<UsersResponse>> GetAll(CancellationToken cancellationToken)
+    public async Task<List<UsersResponse>> GetAll(UsersRequest request, CancellationToken cancellationToken)
     {
-        var model = await _mediator.Send(new GetUsersQuery(cancellationToken));
+        var model = await _mediator.Send(new GetUsersQuery(request, cancellationToken));
         return model;
     }
 
