@@ -49,7 +49,7 @@ public class UserRoleRepository : IUserRoleRepository
             .AsNoTracking()
             .Include(u => u.User)
             .Include(u => u.Role)
-            .Select(p => new GetUserRolesResponse(p.Role.Id, p.Role.Title, p.User.FullName))
+            .Select(p => new GetUserRolesResponse(p.Role.Id,p.User.FullName ,p.Role.Title ))
             .ToListAsync();
 
         return userRoles;

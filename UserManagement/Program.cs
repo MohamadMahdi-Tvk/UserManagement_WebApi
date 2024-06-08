@@ -24,26 +24,14 @@ namespace UserManagement
 
             builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDb")));
 
-            var serviceProvider = builder.Services.BuildServiceProvider();
-            var logger = serviceProvider.GetService<ILogger<CreateUserCommand>>();
+            //var serviceProvider = builder.Services.BuildServiceProvider();
+            //var logger = serviceProvider.GetService<ILogger<CreateUserCommand>>();
 
-            builder.Services.AddSingleton(typeof(ILogger), logger);
-
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-            builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-            #region MediatR
-
-            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(CreateUserCommand).Assembly
-                , typeof(UpdateUserRolesCommand).Assembly
-                , typeof(GetUserRoleByIdQuery).Assembly
-                , typeof(DeleteUserRoleCommand).Assembly));
-                
+            //builder.Services.AddSingleton(typeof(ILogger), logger);
 
 
-            #endregion
+            builder.Services.AddApplication();
+
 
             #region Mapper
             var mapperConfig = new MapperConfiguration(mc =>

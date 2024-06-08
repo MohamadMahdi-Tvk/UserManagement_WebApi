@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using UserManagement.DataAccess.Context;
 using UserManagement.DataAccess.Models;
 using UserManagement.DataAccess.ViewModels.Users.Commands;
@@ -24,9 +25,11 @@ namespace UserManagement.DataAccess.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly DatabaseContext _context;
-        public UserRepository(DatabaseContext context)
+        private readonly ILogger<UserRepository> _logger;
+        public UserRepository(DatabaseContext context, ILogger<UserRepository> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<User>> GetUsers()
