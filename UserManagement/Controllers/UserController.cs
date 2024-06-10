@@ -26,8 +26,9 @@ public class UserController : BaseController
     }
 
 
-    [HttpPost, Route(nameof(GetUserById))]
-    public async Task<GetUserByIdResponse> GetUserById(GetUserByIdRequest request, CancellationToken cancellationToken)
+    [HttpPost]
+    [Route(nameof(GetUsrById))]
+    public async Task<GetUserByIdResponse> GetUsrById(GetUserByIdRequest request, CancellationToken cancellationToken)
     {
         var user = await _mediator.Send(new GetUserByIdQuery(request, cancellationToken));
 

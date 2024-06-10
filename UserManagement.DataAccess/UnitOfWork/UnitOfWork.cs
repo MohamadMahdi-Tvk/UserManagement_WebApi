@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using UserManagement.DataAccess.Connections;
 using UserManagement.DataAccess.Context;
-using UserManagement.DataAccess.Models;
 using UserManagement.DataAccess.Repositories;
 
 namespace UserManagement.DataAccess.UnitOfWork;

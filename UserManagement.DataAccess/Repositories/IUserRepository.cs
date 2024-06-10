@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Logging;
 using UserManagement.DataAccess.Context;
 using UserManagement.DataAccess.Models;
-using UserManagement.DataAccess.ViewModels.Users.Commands;
-using UserManagement.DataAccess.ViewModels.Users.Queries;
 
 namespace UserManagement.DataAccess.Repositories
 {

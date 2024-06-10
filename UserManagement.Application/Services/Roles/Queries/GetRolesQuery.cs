@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using UserManagement.DataAccess.Models;
 using UserManagement.DataAccess.ViewModels.Roles.Queries;
 
 namespace UserManagement.Application.Services.Roles.Queries;

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Dapper;
 using MediatR;
+using System.Data;
 using UserManagement.DataAccess.Models;
 using UserManagement.DataAccess.UnitOfWork;
 using UserManagement.DataAccess.ViewModels.UserRoles.Queries;
@@ -20,21 +22,16 @@ public class GetUserRolesQueryHandler : IRequestHandler<GetUserRolesQuery, List<
     {
         try
         {
-            var userRoles = await _unitOfWork.UserRoleRepository.GetAllUserRoles();
+            //var userRoles = await _unitOfWork.UserRoleRepository.GetAllUserRoles();
 
-            //    var result = new List<GetUserRolesResponse>();
-
-            //    foreach (var item in userRoles)
-            //    {
-            //        var newItem = _mapper.Map<GetUserRolesResponse>(item);
-            //        result.Add(newItem);
-            //    }
+            //return userRoles;
 
 
-            //    return result;
-            //}
+            var parameters = new DynamicParameters();
 
-            return userRoles;
+            var userRole = await _unitOfWork.ApplicationReadDbConnection.QueryAsync<GetUserRolesResponse>("GetUserRoles", parameters, null, CommandType.StoredProcedure, cancellationToken);
+
+            return userRole;
         }
         catch (Exception ex)
         {

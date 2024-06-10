@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using static Dapper.SqlMapper;
 using System.Data;
-using UserManagement.DataAccess.Repositories;
 using UserManagement.DataAccess.Context;
 
 namespace UserManagement.DataAccess.Connections;
@@ -18,6 +17,12 @@ public class ApplicationReadDbConnection : IApplicationReadDbConnection, IDispos
     {
         return (await connection.QueryAsync<T>(sql, param, transaction, commandType: commandType)).AsList();
     }
+
+    public async Task<T> QueryFirstAsync<T>(string sql, object? param = null, IDbTransaction? transaction = null, CommandType commandType = CommandType.Text, CancellationToken cancellationToken = default)
+    {
+        return await connection.QueryFirstAsync<T>(sql, param, transaction, commandType: commandType);
+    }
+
 
     public async Task<T> QueryScalarAsync<T>(string sql, object? param = null, IDbTransaction? transaction = null, CommandType commandType = CommandType.Text, CancellationToken cancellationToken = default)
     {

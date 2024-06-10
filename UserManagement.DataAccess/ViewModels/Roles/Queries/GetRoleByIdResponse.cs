@@ -1,3 +1,3 @@
 ﻿namespace UserManagement.DataAccess.ViewModels.Roles.Queries;
 
-public record GetRoleByIdResponse(string title);
+public record GetRoleByIdResponse(string Title);

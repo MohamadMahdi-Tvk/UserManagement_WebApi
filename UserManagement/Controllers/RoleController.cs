@@ -28,7 +28,8 @@ public class RoleController : BaseController
         return addRole;
     }
 
-    [HttpGet, Route(nameof(GetRoles))]
+    [HttpGet]
+    [Route(nameof(GetRoles))]
     public async Task<List<GetRolesResponse>> GetRoles(CancellationToken cancellationToken)
     {
         var model = await _mediator.Send(new GetRolesQuery(cancellationToken));

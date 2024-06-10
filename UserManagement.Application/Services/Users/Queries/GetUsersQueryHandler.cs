@@ -25,6 +25,7 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, List<UsersRes
         //var usersMapped = _mapper.Map<IEnumerable<User>, IEnumerable<UsersResponse>>(users);
 
         //return usersMapped;
+
         try
         {
             //We wont use text sql due to data expose danger!
