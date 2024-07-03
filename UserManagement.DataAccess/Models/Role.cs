@@ -12,6 +12,7 @@ public class RoleConfiguration : BaseEntityConfiguration<Role>
 {
     public override void Configure(EntityTypeBuilder<Role> builder)
     {
+        builder.Property(t => t.Title).HasMaxLength(50);
         base.Configure(builder);
     }
 }

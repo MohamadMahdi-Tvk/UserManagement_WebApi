@@ -3,11 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement", "UserManagement\UserManagement.csproj", "{8F331F3D-3197-415D-B1D1-B64C7F4984FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement", "UserManagement\UserManagement.csproj", "{8F331F3D-3197-415D-B1D1-B64C7F4984FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.Application", "UserManagement.Application\UserManagement.Application.csproj", "{B5617A4E-CD92-4862-9077-F822E460283B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.Application", "UserManagement.Application\UserManagement.Application.csproj", "{B5617A4E-CD92-4862-9077-F822E460283B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.DataAccess", "UserManagement.DataAccess\UserManagement.DataAccess.csproj", "{2260B40C-5F2F-4307-B255-D7113C3166C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.DataAccess", "UserManagement.DataAccess\UserManagement.DataAccess.csproj", "{2260B40C-5F2F-4307-B255-D7113C3166C6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql Procedures", "Sql Procedures", "{98D80BAD-A266-4ABE-B737-9D7E5E86471F}"
+	ProjectSection(SolutionItems) = preProject
+		GetAllUsers.sql = GetAllUsers.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,4 @@
 ﻿namespace UserManagement.DataAccess.ViewModels.Users.Queries;
 
-public record UsersResponse(string FirstName, string LastName, string UserName, string Password);
+public record UsersResponse(int Id, string FirstName, string LastName, string Title);
 

@@ -19,9 +19,9 @@ public class UserController : BaseController
 
     [HttpPost]
     [Route(nameof(GetAll))]
-    public async Task<List<UsersResponse>> GetAll(UsersRequest request, CancellationToken cancellationToken)
+    public async Task<List<UsersResponse>> GetAll(CancellationToken cancellationToken)
     {
-        var model = await _mediator.Send(new GetUsersQuery(request, cancellationToken));
+        var model = await _mediator.Send(new GetUsersQuery(cancellationToken));
         return model;
     }
 

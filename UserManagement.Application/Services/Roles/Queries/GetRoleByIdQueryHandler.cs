@@ -31,7 +31,7 @@ public class GetRoleByIdQueryHandler : IRequestHandler<GetRoleByIdQuery, GetRole
             //return roleMapped;
 
             var parameters = new DynamicParameters();
-            parameters.Add("Id",request.Query.Id);
+            parameters.Add("Id", request.Query.Id);
             
             var role = await _unitOfWork.ApplicationReadDbConnection.QueryFirstAsync<GetRoleByIdResponse>("GetRoleById", parameters, null, CommandType.StoredProcedure, cancellationToken);
 

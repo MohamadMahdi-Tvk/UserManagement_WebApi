@@ -20,24 +20,15 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, List<UsersRes
 
     public async Task<List<UsersResponse>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
     {
-        //var users = await _unitOfWork.UserRepository.GetUsers();
-
-        //var usersMapped = _mapper.Map<IEnumerable<User>, IEnumerable<UsersResponse>>(users);
-
-        //return usersMapped;
-
+       
         try
         {
-            //We wont use text sql due to data expose danger!
-            //string sqlCommands = "some query";
-            var parameters = new DynamicParameters();
-            parameters.Add("PageNumber", request.Query.PageNumber);
-            parameters.Add("PageSize", request.Query.PageSize);
-            parameters.Add("Query", request.Query.Query);
-            parameters.Add("totalrow", 0, null, ParameterDirection.Output);
 
-            var users = await _unitOfWork.ApplicationReadDbConnection.QueryAsync<UsersResponse>("GetAllUsers", parameters, null, CommandType.StoredProcedure, cancellationToken);
-            return users;
+            var parameters = new DynamicParameters();
+
+            var model = await _unitOfWork.ApplicationReadDbConnection.QueryAsync<UsersResponse>("GetAllUsers", parameters, null, CommandType.StoredProcedure, cancellationToken);
+
+            return model;
         }
         catch (Exception ex)
         {
