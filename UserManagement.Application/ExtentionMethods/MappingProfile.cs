@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using UserManagement.Application.Services.Roles.Queries;
 using UserManagement.DataAccess.Models;
+using UserManagement.DataAccess.ViewModels.Posts.Commands;
 using UserManagement.DataAccess.ViewModels.Roles.Commands;
 using UserManagement.DataAccess.ViewModels.Roles.Queries;
 using UserManagement.DataAccess.ViewModels.UserRoles.Commands;
@@ -15,7 +15,7 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         #region User
-        CreateMap<User, UsersResponse>().ReverseMap();
+        CreateMap<User, GetAllUsersResponse>().ReverseMap();
 
         CreateMap<GetUserByIdResponse, User>().ReverseMap();
 
@@ -49,9 +49,15 @@ public class MappingProfile : Profile
 
         CreateMap<GetUserRoleByIdResponse, UserRole>().ReverseMap();
 
-        CreateMap<DeleteUserRoleRequest,UserRole>().ReverseMap();
+        CreateMap<DeleteUserRoleRequest, UserRole>().ReverseMap();
 
         CreateMap<UpdateUserRoleRequest, UserRole>().ReverseMap();
+
+        #endregion
+
+        #region Post
+
+        CreateMap<CreatePostRequest, Post>().ReverseMap();
 
         #endregion
 

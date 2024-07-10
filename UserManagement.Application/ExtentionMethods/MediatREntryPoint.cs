@@ -19,6 +19,7 @@ public static class MediatREntryPoint
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+        services.AddScoped<IPostRepository,PostRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using UserManagement.Application;
 using UserManagement.Application.Services.Users.Commands;
 using UserManagement.Application.Services.Users.Queries;
 using UserManagement.Controllers.Base;
@@ -19,9 +20,9 @@ public class UserController : BaseController
 
     [HttpPost]
     [Route(nameof(GetAll))]
-    public async Task<List<UsersResponse>> GetAll(CancellationToken cancellationToken)
+    public async Task<Paginated<GetAllUsersResponse>> GetAll(GetAllUsersRequest request,CancellationToken cancellationToken)
     {
-        var model = await _mediator.Send(new GetUsersQuery(cancellationToken));
+        var model = await _mediator.Send(new GetAllUsersQuery(request, cancellationToken));
         return model;
     }
 

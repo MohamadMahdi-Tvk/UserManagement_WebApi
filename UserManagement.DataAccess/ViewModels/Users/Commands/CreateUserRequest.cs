@@ -1,3 +1,5 @@
-﻿namespace UserManagement.DataAccess.ViewModels.Users.Commands;
+﻿using UserManagement.DataAccess.Models;
 
-public record CreateUserRequest(string FirstName, string LastName, string UserName, string Password);
+namespace UserManagement.DataAccess.ViewModels.Users.Commands;
+
+public record CreateUserRequest(string FirstName, string LastName, string UserName, string Password, int RoleId);

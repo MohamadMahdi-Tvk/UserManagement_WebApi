@@ -22,6 +22,42 @@ namespace UserManagement.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("UserManagement.DataAccess.Models.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("InsertDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InsertedUser")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Posts");
+                });
+
             modelBuilder.Entity("UserManagement.DataAccess.Models.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -121,6 +157,17 @@ namespace UserManagement.DataAccess.Migrations
                     b.ToTable("UserRoles");
                 });
 
+            modelBuilder.Entity("UserManagement.DataAccess.Models.Post", b =>
+                {
+                    b.HasOne("UserManagement.DataAccess.Models.User", "User")
+                        .WithMany("Posts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("UserManagement.DataAccess.Models.UserRole", b =>
                 {
                     b.HasOne("UserManagement.DataAccess.Models.Role", "Role")
@@ -147,6 +194,8 @@ namespace UserManagement.DataAccess.Migrations
 
             modelBuilder.Entity("UserManagement.DataAccess.Models.User", b =>
                 {
+                    b.Navigation("Posts");
+
                     b.Navigation("Users");
                 });
 #pragma warning restore 612, 618

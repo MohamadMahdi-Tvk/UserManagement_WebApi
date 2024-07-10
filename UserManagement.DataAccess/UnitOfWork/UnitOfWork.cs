@@ -11,6 +11,8 @@ public interface IUnitOfWork
     IUserRepository UserRepository { get; }
     IRoleRepository RoleRepository { get; }
     IUserRoleRepository UserRoleRepository { get; }
+
+    IPostRepository PostRepository { get; }
     Task<int> CommitAsync(CancellationToken cancellationToken);
 }
 public class UnitOfWork : IUnitOfWork
@@ -20,10 +22,12 @@ public class UnitOfWork : IUnitOfWork
     private readonly IUserRepository _userRepository;
     private readonly IRoleRepository _roleRepository;
     private readonly IUserRoleRepository _userRoleRepository;
+    private readonly IPostRepository _postRepository;
     private readonly DatabaseContext _context;
 
     public UnitOfWork(IUserRepository userRepository, IRoleRepository roleRepository, IUserRoleRepository userRoleRepository, DatabaseContext context
-        , IApplicationReadDbConnection applicationReadDbConnection, IApplicationWriteDbConnection applicationWriteDbConnection)
+        , IApplicationReadDbConnection applicationReadDbConnection, IApplicationWriteDbConnection applicationWriteDbConnection,
+        IPostRepository postRepository)
     {
         _applicationReadDbConnection = applicationReadDbConnection;
         _applicationWriteDbConnection = applicationWriteDbConnection;
@@ -31,7 +35,7 @@ public class UnitOfWork : IUnitOfWork
         _roleRepository = roleRepository;
         _userRoleRepository = userRoleRepository;
         _context = context;
-
+        _postRepository = postRepository;
     }
 
     public IUserRepository UserRepository => _userRepository;
@@ -39,6 +43,8 @@ public class UnitOfWork : IUnitOfWork
     public IRoleRepository RoleRepository => _roleRepository;
 
     public IUserRoleRepository UserRoleRepository => _userRoleRepository;
+
+    public IPostRepository PostRepository => _postRepository;
 
     public IApplicationReadDbConnection ApplicationReadDbConnection => _applicationReadDbConnection;
 

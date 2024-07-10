@@ -1,21 +1,38 @@
-﻿SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+﻿Use UserManagementDb
+Go
 
-ALTER PROCEDURE [dbo].[GetAllUsers]
+Set Ansi_Nulls On
+Go
+Set Quoted_Identifier On
+Go
+
+Create Procedure [dbo].[GetAllUsers]
+ @PageNumber INT,
+ @PageSize INT,
+ @Query NVARCHAR(MAX),
+ @totalRow INT OUTPUT
+ 
 AS
-BEGIN
-	SELECT U.[Id]
-		  ,U.[FirstName]
-		  ,U.[LastName]
-		  ,R.[Title]
-		  FROM Users AS U
-		  INNER JOIN UserRoles AS UR
-		  ON UR.UserId = U.Id
-		  INNER JOIN Roles AS R
-		  ON UR.RoleId = R.Id
-		  WHERE U.IsDeleted = 0 
-          ORDER BY U.Id DESC
-END
-
+Begin
+	Select U.[Id],
+		   U.[FirstName],	
+		   U.[LastName],
+		   U.[UserName],
+		   U.[InsertDate],
+		   U.[IsDeleted],
+		   R.[Title]
+		From Users U INNER JOIN
+		UserRoles UR 
+		On U.Id = UR.UserId INNER JOIN
+		Roles R 
+		On UR.RoleId = R.Id
+	Where U.IsDeleted = 0 AND U.FirstName +'#'+ U.LastName +'#' + U.UserName + '#' + R.Title +'#' LIKE '%' +@Query + '%'
+	Order By U.Id
+	OFFSET ((@PageNumber - 1) * @PageSize) ROWS FETCH NEXT @PageSize ROWS Only
+	Set @totalRow = (Select COUNT(*) From Users U INNER JOIN
+		UserRoles UR 
+		On U.Id = UR.UserId INNER JOIN
+		Roles R 
+		On UR.RoleId = R.Id
+	Where U.IsDeleted = 0 AND U.FirstName +'#'+ U.LastName +'#' + U.UserName + '#' + R.Title +'#' LIKE '%' +@Query + '%')
+End

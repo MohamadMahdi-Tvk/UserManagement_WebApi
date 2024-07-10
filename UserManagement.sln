@@ -11,6 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagement.DataAccess",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql Procedures", "Sql Procedures", "{98D80BAD-A266-4ABE-B737-9D7E5E86471F}"
 	ProjectSection(SolutionItems) = preProject
+		GetAllPosts.sql = GetAllPosts.sql
 		GetAllUsers.sql = GetAllUsers.sql
 	EndProjectSection
 EndProject

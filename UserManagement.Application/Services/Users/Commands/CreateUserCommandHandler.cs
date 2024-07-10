@@ -29,9 +29,22 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Creat
             //    Password = request.Command.Password,
             //};
 
-            var newEntity = _mapper.Map<CreateUserRequest, User>(request.Command);
+            var model = _mapper.Map<CreateUserRequest, User>(request.Command);
 
-            await _unitOfWork.UserRepository.AddUser(newEntity);
+
+            var userRole = new UserRole
+            {
+                User = model,
+
+                UserId = model.Id,
+
+                RoleId = request.Command.RoleId
+                
+            };
+
+            await _unitOfWork.UserRoleRepository.CreateRole(userRole);
+
+            await _unitOfWork.UserRepository.AddUser(model);
 
             await _unitOfWork.CommitAsync(cancellationToken);
 
